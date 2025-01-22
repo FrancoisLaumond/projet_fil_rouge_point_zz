@@ -28,7 +28,7 @@
                 // Vérifier si le nom d'utilisateur et le mot de passe sont corrects
                 if (in_array($inputUser , $users) && in_array($inputPassword, $passwords)) {
                     echo "<p>Bravo</p>";
-                    header('Location: index.html');
+                    header('Location: admin.php');
                 } else {
                     echo '<p class="error">Nom d\'utilisateur ou mot de passe incorrect</p>';
                 }
