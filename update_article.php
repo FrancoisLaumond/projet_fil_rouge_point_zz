@@ -1,24 +1,19 @@
 <?php
-$id = $_GET['id'];
-$status = $_GET['status'];
-$filename = 'BDD/articles.csv';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $status = $_POST['status'];
 
-$rows = array_map('str_getcsv', file($filename));
-$header = array_shift($rows);
-
-foreach ($rows as &$row) {
-    if ($row[0] == $id) {
-        $row[7] = $status;
-        break;
+    $file = 'BDD/articles.csv';
+    $lines = file($file, FILE_IGNORE_NEW_LINES);
+    foreach ($lines as &$line) {
+        $data = str_getcsv($line);
+        if ($data[0] == $id) {
+            $data[7] = $status;
+            $line = implode(',', $data);
+            break;
+        }
     }
+    file_put_contents($file, implode(PHP_EOL, $lines));
+    echo 'success';
 }
-
-$fp = fopen($filename, 'w');
-fputcsv($fp, $header);
-foreach ($rows as $row) {
-    fputcsv($fp, $row);
-}
-fclose($fp);
-
-echo 'success';
 ?>

@@ -33,20 +33,18 @@
             <?php
             $filename = 'BDD/articles.csv';
 
-            if (($handle = fopen($filename, 'r')) !== FALSE) {
+            if (($handle = fopen($filename, 'rb')) !== FALSE) {
                 $count = 0;
-                while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                while (($data = fgetcsv($handle, 1000, ',', '"', '\\')) !== FALSE) {
                     echo "<tr>
                             <td>{$data[1]}</td>
                             <td><span class='camera' data-id='{$data[0]}' data-status='{$data[7]}'>📷</span></td>
-                            <td><span class='edit' data-id='{$data[0]}' data-title='{$data[1]}' data-content='{$data[2]}' data-author='{$data[3]}' data-date='{$data[4]}' data-category='{$data[5]}' data-tags='{$data[6]}' data-status='{$data[7]}'>⚙️</span></td>
-                            <td><span class='delete' data-id='{$data[0]}'>❌</span></td>
+                            <td><span class='delete' data-id='{$data[0]}'>🗑️</span></td>
+                            <td><span class='edit' data-id='{$data[0]}' data-title='{$data[1]}' data-content='{$data[2]}' data-author='{$data[3]}' data-text='{$data[4]}' data-category='{$data[5]}' data-tags='{$data[6]}' data-status='{$data[7]}'>✏️</span></td>
                         </tr>";
                     $count++;
                 }
                 fclose($handle);
-            } else {
-                echo "Erreur lors de l'ouverture du fichier.";
             }
             ?>
         </table>
@@ -56,17 +54,17 @@
         <?php
             function Get_Max_Id($filename) {
                 $maxId = 0;
-                if (($handle = fopen($filename, "r")) !== FALSE) {
-                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                        if (is_numeric($data[0]) && $data[0] > $maxId) {
-                            $maxId = $data[0];
+                if (($handle = fopen($filename, 'r')) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ',', '"', '\\')) !== FALSE) {
+                        if (isset($data[0]) && is_numeric($data[0]) && (int)$data[0] > $maxId) {
+                            $maxId = (int)$data[0];
                         }
                     }
                     fclose($handle);
                 }
                 return $maxId;
             }
-
+        
             $filename = 'BDD/articles.csv';
             $maxId = Get_Max_Id($filename);
 
@@ -104,7 +102,7 @@
         
             <label for="tag">Tag</label>
             <select id="tag" name="tag[]" multiple required>
-                <option value="" disabled selected>Choisissez un tag</option>
+                <option value="" disabled selected>Choisissez un ou des tag</option>
                 <option value="tag1">Tag 1</option>
                 <option value="tag2">Tag 2</option>
                 <option value="tag3">Tag 3</option>
@@ -128,8 +126,8 @@
         <textarea id="edit-content" name="content"></textarea><br>
         <label for="edit-author">Auteur:</label>
         <input type="text" id="edit-author" name="author"><br>
-        <label for="edit-date">Date:</label>
-        <input type="date" id="edit-date" name="date"><br>
+        <label for="edit-text">Text:</label>
+        <input type="text" id="edit-text" name="text"><br>
         <label for="edit-category">Catégorie:</label>
         <input type="text" id="edit-category" name="category"><br>
         <label for="edit-tags">Tags:</label>

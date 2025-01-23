@@ -1,36 +1,39 @@
 <?php
-$id = $_POST['id'];
-$title = $_POST['title'];
-$content = $_POST['content'];
-$author = $_POST['author'];
-$date = $_POST['date'];
-$category = $_POST['category'];
-$tags = $_POST['tags'];
-$status = $_POST['status'];
-$filename = 'BDD/articles.csv';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = $_POST['id'];
+    $title = $_POST['title'];
+    $content = $_POST['content'];
+    $author = $_POST['author'];
+    $text = $_POST['text'];
+    $category = $_POST['category'];
+    $tags = $_POST['tags'];
+    $status = $_POST['status'];
 
-$rows = array_map('str_getcsv', file($filename));
-$header = array_shift($rows);
+    $file = 'BDD/articles.csv';
+    $lines = file($file, FILE_IGNORE_NEW_LINES);
+    $updated = false;
 
-foreach ($rows as &$row) {
-    if ($row[0] == $id) {
-        $row[1] = $title;
-        $row[2] = $content;
-        $row[3] = $author;
-        $row[4] = $date;
-        $row[5] = $category;
-        $row[6] = $tags;
-        $row[7] = $status;
-        break;
+    foreach ($lines as &$line) {
+        $data = str_getcsv($line);
+        if ($data[0] == $id) {
+            $data[1] = $title;
+            $data[2] = $content;
+            $data[3] = $author;
+            $data[4] = $text;
+            $data[5] = $category;
+            $data[6] = $tags;
+            $data[7] = $status;
+            $line = implode(',', $data);
+            $updated = true;
+            break;
+        }
+    }
+
+    if ($updated) {
+        file_put_contents($file, implode(PHP_EOL, $lines));
+        echo 'success';
+    } else {
+        echo 'error';
     }
 }
-
-$fp = fopen($filename, 'w');
-fputcsv($fp, $header);
-foreach ($rows as $row) {
-    fputcsv($fp, $row);
-}
-fclose($fp);
-
-echo 'success';
 ?>

@@ -1,33 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
     document.querySelectorAll('.camera').forEach(function(element) {
         element.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            const status = this.getAttribute('data-status') === 'true' ? 'false' : 'true';
-            fetch(`update_article.php?id=${id}&status=${status}`)
-                .then(response => response.text())
-                .then(data => {
-                    if (data === 'success') {
-                        this.setAttribute('data-status', status);
-                    } else {
-                        alert('Erreur lors de la mise à jour.');
-                    }
-                });
+            const currentStatus = this.getAttribute('data-status');
+            const newStatus = currentStatus === 'true' ? 'false' : 'true';
+            fetch(`update_article.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `id=${id}&status=${newStatus}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                location.reload();
+            });
         });
     });
 
     document.querySelectorAll('.delete').forEach(function(element) {
         element.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            fetch(`delete_article.php?id=${id}`)
-                .then(response => response.text())
-                .then(data => {
-                    if (data === 'success') {
-                        this.closest('tr').remove();
-                    } else {
-                        alert('Erreur lors de la suppression.');
-                    }
-                });
+            fetch(`delete_article.php`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `id=${id}`
+            })
+            .then(response => response.text())
+            .then(data => {
+                location.reload();
+            });
         });
     });
 
@@ -37,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const title = this.getAttribute('data-title');
             const content = this.getAttribute('data-content');
             const author = this.getAttribute('data-author');
-            const date = this.getAttribute('data-date');
+            const text = this.getAttribute('data-text');
             const category = this.getAttribute('data-category');
             const tags = this.getAttribute('data-tags');
             const status = this.getAttribute('data-status');
@@ -46,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit-title').value = title;
             document.getElementById('edit-content').value = content;
             document.getElementById('edit-author').value = author;
-            document.getElementById('edit-date').value = date;
+            document.getElementById('edit-text').value = text;
             document.getElementById('edit-category').value = category;
             document.getElementById('edit-tags').value = tags;
             document.getElementById('edit-status').value = status;
@@ -61,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const title = document.getElementById('edit-title').value;
         const content = document.getElementById('edit-content').value;
         const author = document.getElementById('edit-author').value;
-        const date = document.getElementById('edit-date').value;
+        const text = document.getElementById('edit-text').value;
         const category = document.getElementById('edit-category').value;
         const tags = document.getElementById('edit-tags').value;
         const status = document.getElementById('edit-status').value;
@@ -71,15 +75,11 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `id=${id}&title=${title}&content=${content}&author=${author}&date=${date}&category=${category}&tags=${tags}&status=${status}`
+            body: `id=${id}&title=${title}&content=${content}&author=${author}&text=${text}&category=${category}&tags=${tags}&status=${status}`
         })
         .then(response => response.text())
         .then(data => {
-            if (data === 'success') {
-                location.reload();
-            } else {
-                alert('Erreur lors de la mise à jour.');
-            }
+            location.reload();
         });
     });
 
