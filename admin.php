@@ -5,23 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau avec Emoticônes</title>
     <script src="script.js"></script>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 50px auto;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="body-admin">
     <div>
         <table>
             <tr>
@@ -83,8 +69,10 @@
                 fclose($file);
             }
         ?>
-        <form method="POST" action="">
+        <form method="POST" action="" class="form_add_article">
 
+            <h2>Tableau pour créer un article</h2>
+            
             <label for="name">Nom</label>
             <textarea id="name" name="name" placeholder="Nom" required></textarea>
         
@@ -114,6 +102,11 @@
             <input type="submit" value="Ajouter"/>
         </form>
         </form>
+    </div>
+
+    <div class="explication-div">
+        <h2>Comment ca fonctione</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique doloribus, officia optio et assumenda nisi cum, quod aspernatur quae ipsum, repellendus nesciunt esse? Qui est nobis eligendi necessitatibus nisi obcaecati.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique doloribus, officia optio et assumenda nisi cum, quod aspernatur quae ipsum, repellendus nesciunt esse? Qui est nobis eligendi necessitatibus nisi obcaecati.lorem </p>
     </div>
 
     

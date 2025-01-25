@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <form method="POST" action="">
+    <form method="POST" action="" class="login-form">
         <label for="users">Nom d'utilisateur</label>
         <input type="text" id="users" name="users" placeholder="Nom d'utilisateur" required/>
 
