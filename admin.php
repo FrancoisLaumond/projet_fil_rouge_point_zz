@@ -24,7 +24,11 @@
                 while (($data = fgetcsv($handle, 1000, ',', '"', '\\')) !== FALSE) {
                     echo "<tr>
                             <td>{$data[1]}</td>
-                            <td><span class='camera' data-id='{$data[0]}' data-status='{$data[7]}'>📷</span></td>
+                            <td>
+                                <span class='camera' data-id='{$data[0]}' data-status='{$data[7]}'>
+                                    " . ($data[7] === 'true' ? '📷' : '📵') . "
+                                </span>
+                            </td>
                             <td><span class='delete' data-id='{$data[0]}'>🗑️</span></td>
                             <td><span class='edit' data-id='{$data[0]}' data-title='{$data[1]}' data-content='{$data[2]}' data-author='{$data[3]}' data-text='{$data[4]}' data-category='{$data[5]}' data-tags='{$data[6]}' data-status='{$data[7]}'>✏️</span></td>
                         </tr>";

@@ -13,7 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.text())
             .then(data => {
-                location.reload();
+                if (data === 'success') {
+                    this.setAttribute('data-status', newStatus);
+                    this.innerHTML = newStatus === 'true' ? '📷' : '📵';
+                } else {
+                    alert('Erreur lors de la mise à jour.');
+                }
             });
         });
     });
@@ -30,7 +35,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.text())
             .then(data => {
-                location.reload();
+                if (data === 'success') {
+                    this.closest('tr').remove();
+                } else {
+                    alert('Erreur lors de la suppression.');
+                }
             });
         });
     });
@@ -79,7 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.text())
         .then(data => {
-            location.reload();
+            if (data === 'success') {
+                location.reload();
+            } else {
+                alert('Erreur lors de la mise à jour.');
+            }
         });
     });
 
