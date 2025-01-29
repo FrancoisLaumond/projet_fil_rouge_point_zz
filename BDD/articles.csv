@@ -1,12 +1,12 @@
-4,Article 4,This is the fifth article,http://example.com/image5.jpg,Details for article five,http://example.com/image5_1.jpg;http://example.com/image5_2.jpg,tag9;tag10,false
+4,Article 4,This is the fifth article,http://example.com/image5.jpg,Details for article five,http://example.com/image5_1.jpg;http://example.com/image5_2.jpg,tag9;tag10,true
 5,Article 5,This is the sixth article,http://example.com/image6.jpg,Another example of full text,http://example.com/image6_1.jpg;http://example.com/image6_2.jpg,tag11;tag12,true
-6,Article 6,This is the seventh article,http://example.com/image7.jpg,Full details of the seventh article,http://example.com/image7_1.jpg;http://example.com/image7_2.jpg,tag13;tag14,false
+6,Article 6,This is the seventh article,http://example.com/image7.jpg,Full details of the seventh article,http://example.com/image7_1.jpg;http://example.com/image7_2.jpg,tag13;tag14,true
 7,Article 7,This is the eighth article,http://example.com/image8.jpg,Eighth article details,http://example.com/image8_1.jpg;http://example.com/image8_2.jpg,tag15;tag16,true
-9,Article 9,This is the tenth article,http://example.com/image10.jpg,Details of the tenth article,http://example.com/image10_1.jpg;http://example.com/image10_2.jpg,tag19;tag20,false
+9,Article 9,This is the tenth article,http://example.com/image10.jpg,Details of the tenth article,http://example.com/image10_1.jpg;http://example.com/image10_2.jpg,tag19;tag20,true
 10,Article 10,This is the eleventh article,http://example.com/image11.jpg,Eleventh article full text,http://example.com/image11_1.jpg;http://example.com/image11_2.jpg,tag21;tag22,true
-11,Article 11,This is the twelfth article,http://example.com/image12.jpg,Another detailed text,http://example.com/image12_1.jpg;http://example.com/image12_2.jpg,tag23;tag24,false
+11,Article 11,This is the twelfth article,http://example.com/image12.jpg,Another detailed text,http://example.com/image12_1.jpg;http://example.com/image12_2.jpg,tag23;tag24,true
 12,Article 12,This is the thirteenth article,http://example.com/image13.jpg,Full description for article thirteen,http://example.com/image13_1.jpg;http://example.com/image13_2.jpg,tag25;tag26,true
-13,Article 13,This is the fourteenth article,http://example.com/image14.jpg,Details of the fourteenth article,http://example.com/image14_1.jpg;http://example.com/image14_2.jpg,tag27;tag28,false
+13,Article 13,This is the fourteenth article,http://example.com/image14.jpg,Details of the fourteenth article,http://example.com/image14_1.jpg;http://example.com/image14_2.jpg,tag27;tag28,true
 14,Article 14,This is the fifteenth article,http://example.com/image15.jpg,Full explanation for article fifteen,http://example.com/image15_1.jpg;http://example.com/image15_2.jpg,tag29;tag30,true
 15,Article 15,This is the sixteenth article,http://example.com/image16.jpg,Sixteenth article full text,http://example.com/image16_1.jpg;http://example.com/image16_2.jpg,tag31;tag32,false
 16,Article 16,This is the seventeenth article,http://example.com/image17.jpg,Seventeenth article description,http://example.com/image17_1.jpg;http://example.com/image17_2.jpg,tag33;tag34,true
