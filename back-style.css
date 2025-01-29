@@ -38,14 +38,18 @@ input[type="submit"]:hover {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     height: 100vh;
-    width: 90vw;
+    width: 95vw;
     margin: 0 auto;
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    padding-top: 3em;
 }
 
 table {
     width: 30vw;
     border-collapse: collapse;
-    margin: 50px 0;
+    margin: 0 0;
     background: white;
 }
 
@@ -64,28 +68,18 @@ th {
     flex-direction: column;
     gap: 1em;
     width: 25vw;
-    margin: 50px;
     padding: 20px;
     background: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-
-    position: fixed; /* Garde l'élément visible pendant le défilement */
-    top: 0px; /* Distance depuis le haut de la fenêtre */
-    left: 70vh; /* Ajuster selon votre mise en page */
 }
 
 .explication-div {
     width: 30vw;
-    height: auto;
-    margin: 50px;
+    height: fit-content;
     padding: 20px;
     background: white;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-    position: fixed; /* Garde l'élément visible pendant le défilement */
-    top: 0px; /* Distance depuis le haut de la fenêtre */
-    right: 0px; /* Ajuster selon votre mise en page */
 }
