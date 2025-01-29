@@ -13,8 +13,8 @@
             <tr>
                 <th>Nom</th>
                 <th>Montrer ou Non</th>
-                <th>Modifier</th>
                 <th>Supprimer l'article</th>
+                <th>Modifier</th>
             </tr>
             <?php
             $filename = 'BDD/articles.csv';
@@ -69,46 +69,73 @@
                 fclose($file);
             }
         ?>
-        <form method="POST" action="" class="form_add_article">
+        <div class="div_add_article_and_explication">
 
-            <h2>Tableau pour créer un article</h2>
+            <div class="explication-div">
+                <h2>Comment ca fonctione</h2>
+                <p>
+                    <strong>Guide d'utilisation de la page d'administration</strong><br><br>
+                    Cette page vous permet de gérer vos articles facilement.<br><br>
+                    <strong>1. Gérer les articles</strong><br>
+                    - <strong>Afficher/Masquer</strong> : Cliquez sur 📷 pour activer ou désactiver l'affichage d'un article.<br>
+                    - <strong>Modifier</strong> : Cliquez sur ✏️ pour éditer un article.<br>
+                    - <strong>Supprimer</strong> : Cliquez sur 🗑️ pour supprimer un article définitivement.<br><br>
+                    <strong>2. Ajouter un article</strong><br>
+                    - <strong>Nom</strong> : Entrez le titre de l'article.<br>
+                    - <strong>Description</strong> : Ajoutez un court résumé.<br>
+                    - <strong>Image principale</strong> : Entrez l'URL de l'image principale.<br>
+                    - <strong>Texte</strong> : Rédigez le contenu.<br>
+                    - <strong>Image secondaire</strong> : Ajoutez plusieurs URLs, séparées par des virgules.<br>
+                    - <strong>Tags</strong> : Sélectionnez des mots-clés.<br>
+                    - <strong>Afficher l'article</strong> : Cochez cette case si vous souhaitez publier immédiatement.<br>
+                    - <strong>Enregistrer</strong> : Cliquez sur "Ajouter".<br><br>
+                    <strong>⚠️ Ne pas utiliser</strong> <code>;, / "</code> dans les champs pour éviter les erreurs.<br><br>
+                    <strong>3. Modifier un article</strong><br>
+                    1. Cliquez sur ✏️.<br>
+                    2. Modifiez les informations.<br>
+                    3. Cliquez sur "Enregistrer".<br><br>
+                    <strong>4. Supprimer un article</strong><br>
+                    Cliquez sur 🗑️ pour supprimer un article définitivement.<br><br>
+                </p>
+            </div>
+
+            <form method="POST" action="" class="form_add_article">
+
+                <h2>Tableau pour créer un article</h2>
+                
+                <label for="name">Nom</label>
+                <textarea id="name" name="name" placeholder="Nom" required></textarea>
             
-            <label for="name">Nom</label>
-            <textarea id="name" name="name" placeholder="Nom" required></textarea>
-        
-            <label for="description">Description</label>
-            <textarea id="description" name="description" placeholder="Description" required></textarea>
-        
-            <label for="main_image">Image Principal</label>
-            <textarea id="main_image" name="main_image" placeholder="Image Principal" required></textarea>
-        
-            <label for="text">Texte</label>
-            <textarea id="text" name="text" placeholder="Texte" required></textarea>
-        
-            <label for="secondary_image">Image Secondaire</label>
-            <textarea id="secondary_image" name="secondary_image" placeholder="Image Secondaire" required></textarea>
-        
-            <label for="tag">Tag</label>
-            <select id="tag" name="tag[]" multiple required>
-                <option value="" disabled selected>Choisissez un ou des tag</option>
-                <option value="tag1">Tag 1</option>
-                <option value="tag2">Tag 2</option>
-                <option value="tag3">Tag 3</option>
-            </select>
-        
-            <label for="show">Show</label>
-            <input type="checkbox" id="show" name="show">
-        
-            <input type="submit" value="Ajouter"/>
-        </form>
-        </form>
-    </div>
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Description" required></textarea>
+            
+                <label for="main_image">Image Principal</label>
+                <textarea id="main_image" name="main_image" placeholder="Image Principal" required></textarea>
+            
+                <label for="text">Texte</label>
+                <textarea id="text" name="text" placeholder="Texte" required></textarea>
+            
+                <label for="secondary_image">Image Secondaire</label>
+                <textarea id="secondary_image" name="secondary_image" placeholder="Image Secondaire" required></textarea>
+            
+                <label for="tag">Tag</label>
+                <select id="tag" name="tag[]" multiple required>
+                    <option value="" disabled selected>Choisissez un ou des tag</option>
+                    <option value="tag1">Tag 1</option>
+                    <option value="tag2">Tag 2</option>
+                    <option value="tag3">Tag 3</option>
+                </select>
+            
+                <label for="show">Show</label>
+                <input type="checkbox" id="show" name="show">
+            
+                <input type="submit" value="Ajouter"/>
+            </form>
+            </form>
+        </div>
 
-    <div class="explication-div">
-        <h2>Comment ca fonctione</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique doloribus, officia optio et assumenda nisi cum, quod aspernatur quae ipsum, repellendus nesciunt esse? Qui est nobis eligendi necessitatibus nisi obcaecati.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique doloribus, officia optio et assumenda nisi cum, quod aspernatur quae ipsum, repellendus nesciunt esse? Qui est nobis eligendi necessitatibus nisi obcaecati.lorem </p>
-    </div>
 
+    </div>
     
     <div id="edit-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid black;">
     <form id="edit-form">
