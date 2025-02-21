@@ -33,6 +33,7 @@
         <div><a href="#"><img src="content/index2.png" alt="value2"></a><h4>Value 2</h4></div>
         <div><a href="#"><img src="content/index3.png" alt="value3"></a><h4>Value 3</h4></div>
     </div>
+<?php include 'footer.php'; ?>
     <a href="connect.php">Admin</a>
     <script src="front-script.js"></script>
 </body>

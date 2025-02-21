@@ -177,11 +177,11 @@ nav ul li a:hover {
     max-height: 200px;
 }
 
-.imgDisplay h4{
+.imgDisplay h4 {
     text-align: left;
 }
 
-.altBlock{
+.altBlock {
     background-color: #E9DFB4;
     padding: 0 60px 0 60px;
     display: flex;
@@ -198,4 +198,17 @@ nav ul li a:hover {
 
 .altBlock p{
   text-align: justify;
+}
+
+footer {
+  background-color: #E14A4C;
+  color: #FFFFFF;
+  justify-content: center
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 2%;
+  text-align: left;
 }
