@@ -28,7 +28,7 @@
     </div>
     <h2 style="text-align:center;">Nos Valeurs</h2>
 
-    <div class="imgDisplay">
+    <div class="imgDisplayAlt">
         <div><a href="#"><img src="content/index1.png" alt="value1"></a><h4>Value 1</h4></div>
         <div><a href="#"><img src="content/index2.png" alt="value2"></a><h4>Value 2</h4></div>
         <div><a href="#"><img src="content/index3.png" alt="value3"></a><h4>Value 3</h4></div>

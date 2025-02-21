@@ -167,22 +167,23 @@ nav ul li a:hover {
 }
 
 .imgDisplayAlt {
+  margin-top: 80px;
   display: flex;
   justify-content: center;
   gap: 5%;
 }
 
-.imgDisplay img {
+.imgDisplay img, .imgDisplayAlt img {
     max-height: 200px;
 }
 
 .imgDisplay h4{
-    text-align: center;
+    text-align: left;
 }
 
 .altBlock{
     background-color: #E9DFB4;
-    margin: 0 60px 0 60px;
+    padding: 0 60px 0 60px;
     display: flex;
     gap: 40px;
     flex-direction: row;
