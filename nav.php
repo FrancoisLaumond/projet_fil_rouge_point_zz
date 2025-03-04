@@ -2,7 +2,7 @@
     <a href="index.php" class="navLogo"><img src="logo.png" alt="Logo"></a>
     <ul>
         <li class="dropdown">
-            <a href="article.php">Mes créations</a>
+            <a href="articles.php">Mes créations</a>
             <div class="submenu">
                 <img src="index1.png" alt="dropdown image">
                 <div class="dropdown-list">

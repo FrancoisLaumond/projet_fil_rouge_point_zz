@@ -1,5 +1,4 @@
 <?php
-// Lire les utilisateurs et mots de passe à partir des fichiers CSV
 $users = str_getcsv(file_get_contents('BDD/users.csv'), ',', '"', '\\');
 $passwords = str_getcsv(file_get_contents('BDD/password.csv'), ',', '"', '\\');
 
@@ -7,10 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $inputUser  = trim($_POST['users']);
     $inputPassword = trim($_POST['password']);
 
-    // Vérifier si le nom d'utilisateur et le mot de passe sont corrects
     if (in_array($inputUser , $users) && in_array($inputPassword, $passwords)) {
         header('Location: admin.php');
-        exit; // Arrêter l'exécution du script après la redirection
+        exit;
     } else {
         $error = 'Nom d\'utilisateur ou mot de passe incorrect';
     }
