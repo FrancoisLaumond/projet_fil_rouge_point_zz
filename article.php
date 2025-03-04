@@ -59,8 +59,15 @@ if ($item_id !== null) {
                 <?php endforeach; ?>
             </div>
             <div class="article-tags">
-                <p><strong>Tags:</strong> <?php echo implode(', ', array_map('htmlspecialchars', $article['tags'])); ?></p>
+                <p><strong>Tags:</strong> 
+                    <?php 
+                    echo implode(', ', array_map(function($tag) {
+                        return '<a href="articles.php?tag=' . urlencode($tag) . '">' . htmlspecialchars($tag) . '</a>';
+                    }, $article['tags'])); 
+                    ?>
+                </p>
             </div>
+
         <?php else: ?>
             <h1>Article non trouvé</h1>
             <p>Nous n'avons pas pu trouver l'article que vous cherchez.</p>

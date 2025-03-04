@@ -63,6 +63,10 @@ nav ul li a:hover {
     nav ul li {
         margin: 10px 0;
     }
+
+    .submenu {
+      display: none !important;
+  }
 }
 
 .submenu {
@@ -85,7 +89,6 @@ nav ul li a:hover {
   padding: 20px 40px;
   box-sizing: border-box;
 }
-
 
 .submenu img {
   max-width: 150px;
@@ -284,6 +287,12 @@ nav ul li a:hover {
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.article-card a{
+  text-decoration: none;
+  color: #000000;
+}
+
 .article-card img {
   max-width: 100%;
   height: auto;

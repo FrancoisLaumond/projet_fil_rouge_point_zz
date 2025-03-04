@@ -46,9 +46,11 @@ if (($handle = fopen($csvFile, "r")) !== FALSE) {
         <div class="articles-grid">
             <?php foreach ($articles as $article) : ?>
                 <div class="article-card">
+                    <a href="article.php?item=<?= htmlspecialchars($article['id']) ?>">
                     <img src="<?= htmlspecialchars($article['thumbnail']) ?>" alt="<?= htmlspecialchars($article['name']) ?>">
                     <h2><?= htmlspecialchars($article['name']) ?></h2>
                     <p><?= htmlspecialchars($article['description']) ?></p>
+                    </a>
                 </div>
             <?php endforeach; ?>
         </div>
