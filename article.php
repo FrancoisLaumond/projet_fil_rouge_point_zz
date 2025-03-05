@@ -36,6 +36,10 @@ if ($item_id !== null) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Point Zig-Zag - À Propos</title>
     <link rel="stylesheet" href="front-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/bgg3fjy.css">
 </head>
 <body>
 <?php include 'nav.php'; ?>
