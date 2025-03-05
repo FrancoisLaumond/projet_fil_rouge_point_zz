@@ -1,6 +1,4 @@
 <?php
-include('nav.php');
-
 $articles = [];
 if (($handle = fopen('BDD/articles.csv', 'r')) !== false) {
     while (($data = fgetcsv($handle, 1000, ",")) !== false) {
@@ -32,33 +30,35 @@ if ($item_id !== null) {
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $article ? htmlspecialchars($article['name']) : "Article non trouvé"; ?></title>
+    <title>Point Zig-Zag - À Propos</title>
     <link rel="stylesheet" href="front-style.css">
 </head>
 <body>
-    <div class="article-container">
-        <?php if ($article): ?>
-            <h1><?php echo htmlspecialchars($article['name']); ?></h1>
-            <div class="article-thumbnail">
-                <img src="<?php echo htmlspecialchars($article['thumbnail']); ?>" alt="<?php echo htmlspecialchars($article['name']); ?>">
-            </div>
-            <div class="article-description">
+<?php include 'nav.php'; ?>
+<body>
+    <div class="article-solo">
+        <div class="article-main-block">
+            <div class="article-main-infos">
+                <h1><?php echo htmlspecialchars($article['name']); ?></h1>
                 <p><?php echo nl2br(htmlspecialchars($article['description'])); ?></p>
+                <div class="article-contact">
+                    <a href="contact.php"><p>Cet article vous intéresse? <br> Contactez moi !</p></a>
+                </div>
             </div>
-            <div class="article-long-description">
-                <h2>Description détaillée</h2>
-                <p><?php echo nl2br(htmlspecialchars($article['long_description'])); ?></p>
-            </div>
-            <div class="article-images">
+            <img src="<?php echo htmlspecialchars($article['thumbnail']); ?>" alt="<?php echo htmlspecialchars($article['name']); ?>">
+        </div>
+        <div class="article-main-infos">
+            <p><?php echo nl2br(htmlspecialchars($article['long_description'])); ?></p>
+            <div class="article-showcase">
                 <?php foreach ($article['images'] as $image): ?>
                     <img src="<?php echo htmlspecialchars($image); ?>" alt="Image de l'article">
                 <?php endforeach; ?>
             </div>
-            <div class="article-tags">
+            <div class="article-main-tags">
                 <p><strong>Tags:</strong> 
                     <?php 
                     echo implode(', ', array_map(function($tag) {
@@ -67,13 +67,8 @@ if ($item_id !== null) {
                     ?>
                 </p>
             </div>
-
-        <?php else: ?>
-            <h1>Article non trouvé</h1>
-            <p>Nous n'avons pas pu trouver l'article que vous cherchez.</p>
-        <?php endif; ?>
-    </div>
-
+        </div>
+    </div>    
     <?php include('footer.php'); ?>
 </body>
 </html>

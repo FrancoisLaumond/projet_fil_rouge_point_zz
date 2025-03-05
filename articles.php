@@ -1,6 +1,4 @@
 <?php
-include 'nav.php';
-
 $csvFile = 'BDD/articles.csv';
 
 if (!file_exists($csvFile)) {
@@ -33,13 +31,15 @@ if (($handle = fopen($csvFile, "r")) !== FALSE) {
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Point Zig-Zag - Accueil</title>
+    <title>Point Zig-Zag - À Propos</title>
     <link rel="stylesheet" href="front-style.css">
 </head>
+<body>
+<?php include 'nav.php'; ?>
 <body>
     <div class="articles-container">
         <h1><?= $selectedTag ? "Articles : " . $selectedTag : "Nos Articles" ?></h1>
@@ -57,6 +57,5 @@ if (($handle = fopen($csvFile, "r")) !== FALSE) {
     </div>
     
     <?php include 'footer.php'; ?>
-    <script src="front-script.js"></script>
 </body>
 </html>
