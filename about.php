@@ -13,8 +13,8 @@
 <body>
 <?php include 'nav.php'; ?>
     <div class="main-content">
-        <div class="about">
-            <!-- <div class="about-main">
+        <!-- <div class="about">
+            <div class="about-main">
                 <img src="content/about1.png" alt="about1">
                 <div  class="about-main-info">
                     <h2>Notre histoire</h2>
@@ -26,8 +26,8 @@ Dans un second temps, j’ai choisi la qualité. Je m’oblige à avoir que des 
 
 Dans un troisième et dernier temps, je prone pour l’humanité car oui j’ai encore foi en l’humain ! Si vous avez déjà acheté mes produits sur les marchés, vous avez déjà dû m’entendre dire “on peut se dire bonjour même sans acheter”. Car oui, un petit bonjour n’engage à rien et me fait extrêmement plaisir (surtout que je suis assez physionomiste!), une petite parlotte, un retour sur un avis client.... tout ces petits gestes sont précieux pour moi et me conforte dans mon choix de vie.</p>
                 </div>
-            </div> -->
-        </div>
+            </div>
+        </div> -->
         <div class="altBlock">
             <div>
                 <h2>Nos valeurs</h2>
@@ -51,7 +51,7 @@ Dans un troisième et dernier temps, je prone pour l’humanité car oui j’ai 
                 <br><br>Contactez-moi sur Instagram et nous parlerons de votre projet.
 
                 <br><br>Livraisons à travers la France&le monde
-                <br>Paiement par virement, CB ou espèce.</p>
+                <br><br>Paiement par virement, CB ou espèce.</p>
             </div>
             <img src="content/about2.png" alt="about2">
         </div>
