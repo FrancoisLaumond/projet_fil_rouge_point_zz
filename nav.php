@@ -1,5 +1,5 @@
 <?php $isArticlesPage = basename($_SERVER['PHP_SELF']) == 'article.php'; ?>
-<nav style="background-color: <?= $isArticlesPage ? '#E14A4C' : 'transparent' ?>;">
+<nav style="background-color: <?= $isArticlesPage ? '#E14A4C' : 'transparent' ?>; border-bottom: <?= $isArticlesPage ? 'none' : 'solid 3px #E14A4C' ?>;">
     <a href="index.php" class="navLogo">
         <img src="content/logo.png" alt="Logo">
     </a>

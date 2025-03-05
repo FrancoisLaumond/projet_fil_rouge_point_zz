@@ -26,7 +26,6 @@ nav {
     display: flex;
     flex-direction: row;
     justify-content: end;
-    border-bottom: solid 3px #E14A4C;
     align-items: center;
 }
 
@@ -123,7 +122,7 @@ nav ul li a:hover {
 
 .submenu {
   position: fixed;
-  top: 137px;
+  top: 136px;
   left: 50%;
   transform: translateX(-50%);
   width: 90vw;
