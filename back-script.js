@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Mise à jour du statut (Afficher/Masquer)
     document.querySelectorAll('.camera').forEach(function(element) {
         element.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data === 'success') {
                     this.setAttribute('data-status', newStatus);
-                    this.innerHTML = newStatus === 'true' ? '📷' : '📵';
+                    this.innerHTML = newStatus === 'yes' ? '📷' : '📵';
                 } else {
                     alert('Erreur lors de la mise à jour.');
                 }
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Suppression d'un article
     document.querySelectorAll('.delete').forEach(function(element) {
         element.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
@@ -44,8 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    document.querySelectorAll('.edit').forEach(function(element) {
-        element.addEventListener('click', function() {
+    // Modification d'un article
+    document.querySelectorAll('.edit').forEach(function (element) {
+        element.addEventListener('click', function () {
             const id = this.getAttribute('data-id');
             const title = this.getAttribute('data-title');
             const content = this.getAttribute('data-content');
@@ -55,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const tags = this.getAttribute('data-tags');
             const status = this.getAttribute('data-status');
 
+            // Remplir les champs du formulaire avec les données de l'article
             document.getElementById('edit-id').value = id;
             document.getElementById('edit-title').value = title;
             document.getElementById('edit-content').value = content;
@@ -64,10 +68,17 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit-tags').value = tags;
             document.getElementById('edit-status').value = status;
 
+            // Afficher le pop-up
             document.getElementById('edit-popup').style.display = 'block';
         });
     });
 
+    // Gestion de la fermeture du pop-up
+    document.getElementById('edit-close').addEventListener('click', function () {
+        document.getElementById('edit-popup').style.display = 'none';
+    });
+
+    // Soumission du formulaire de modification
     document.getElementById('edit-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const id = document.getElementById('edit-id').value;
@@ -96,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Fermeture du popup de modification
     document.getElementById('edit-close').addEventListener('click', function() {
         document.getElementById('edit-popup').style.display = 'none';
     });

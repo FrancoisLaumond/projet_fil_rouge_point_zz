@@ -1,3 +1,53 @@
+<?php
+// Activer la gestion des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$filename = 'BDD/articles.csv';
+
+// Fonction pour obtenir le plus grand ID dans le fichier CSV
+function Get_Max_Id($filename) {
+    $maxId = 0;
+    if (($handle = fopen($filename, 'r')) !== FALSE) {
+        while (($data = fgetcsv($handle, 1000, ',', '"', '\\')) !== FALSE) {
+            if (isset($data[0]) && is_numeric($data[0]) && (int)$data[0] > $maxId) {
+                $maxId = (int)$data[0];
+            }
+        }
+        fclose($handle);
+    }
+    return $maxId;
+}
+
+// Traitement du formulaire d'ajout d'article
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $maxId = Get_Max_Id($filename);
+    $id = $maxId + 1;
+
+    // Récupération des données du formulaire
+    $name = htmlspecialchars($_POST['name']);
+    $description = htmlspecialchars($_POST['description']);
+    $main_image = htmlspecialchars($_POST['main_image']);
+    $text = htmlspecialchars($_POST['text']);
+    $secondary_image = htmlspecialchars($_POST['secondary_image']);
+    $tags = htmlspecialchars(implode(';', $_POST['tag'])); // Conversion des tags en chaîne séparée par des ;
+    $show = isset($_POST['show']) ? 'true' : 'false'; // Conversion en "true" ou "false"
+
+    // Ajout des données dans le fichier CSV
+    $file = fopen($filename, 'a');
+    if ($file) {
+        fputcsv($file, [$id, $name, $description, $main_image, $text, $secondary_image, $tags, $show]);
+        fclose($file);
+
+        // Redirection pour éviter les doubles soumissions
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    } else {
+        echo "<p>Erreur lors de l'ajout de l'article.</p>";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,22 +67,45 @@
                 <th>Modifier</th>
             </tr>
             <?php
-            $filename = 'BDD/articles.csv';
-
+            // Lecture et affichage des articles depuis le fichier CSV
             if (($handle = fopen($filename, 'rb')) !== FALSE) {
-                $count = 0;
                 while (($data = fgetcsv($handle, 1000, ',', '"', '\\')) !== FALSE) {
+                    // Ignorez les lignes vides ou incomplètes
+                    if (empty($data) || count($data) < 8) {
+                        continue;
+                    }
+
+                    // Récupérez les données avec des vérifications
+                    $data_id = isset($data[0]) ? $data[0] : '';
+                    $data_name = isset($data[1]) ? $data[1] : 'Nom manquant';
+                    $data_description = isset($data[2]) ? $data[2] : 'Description manquante';
+                    $data_main_image = isset($data[3]) ? $data[3] : '';
+                    $data_text = isset($data[4]) ? $data[4] : '';
+                    $data_secondary_image = isset($data[5]) ? $data[5] : '';
+                    $data_tags = isset($data[6]) ? $data[6] : '';
+                    $data_status = isset($data[7]) ? $data[7] : 'false';
+
                     echo "<tr>
-                            <td>{$data[1]}</td>
+                            <td>{$data_name}</td>
                             <td>
-                                <span class='camera' data-id='{$data[0]}' data-status='{$data[7]}'>
-                                    " . ($data[7] === 'true' ? '📷' : '📵') . "
+                                <span class='camera' data-id='{$data_id}' data-status='{$data_status}'>
+                                    " . ($data_status === 'true' ? '📷' : '📵') . "
                                 </span>
                             </td>
-                            <td><span class='delete' data-id='{$data[0]}'>🗑️</span></td>
-                            <td><span class='edit' data-id='{$data[0]}' data-title='{$data[1]}' data-content='{$data[2]}' data-author='{$data[3]}' data-text='{$data[4]}' data-category='{$data[5]}' data-tags='{$data[6]}' data-status='{$data[7]}'>✏️</span></td>
+                            <td><span class='delete' data-id='{$data_id}'>🗑️</span></td>
+                            <td>
+                                <span class='edit' 
+                                    data-id='<?php echo htmlspecialchars($data_id); ?>' 
+                                    data-title='<?php echo htmlspecialchars($data_name); ?>' 
+                                    data-content='<?php echo htmlspecialchars($data_description); ?>' 
+                                    data-author='<?php echo htmlspecialchars($data_main_image); ?>' 
+                                    data-text='<?php echo htmlspecialchars($data_text); ?>' 
+                                    data-category='<?php echo htmlspecialchars($data_secondary_image); ?>' 
+                                    data-tags='<?php echo htmlspecialchars($data_tags); ?>' 
+                                    data-status='<?php echo htmlspecialchars($data_status); ?>'>✏️
+                                </span>
+                            </td>
                         </tr>";
-                    $count++;
                 }
                 fclose($handle);
             }
@@ -40,126 +113,92 @@
         </table>
     </div>
 
-    <div>
-        <?php
-            function Get_Max_Id($filename) {
-                $maxId = 0;
-                if (($handle = fopen($filename, 'r')) !== FALSE) {
-                    while (($data = fgetcsv($handle, 1000, ',', '"', '\\')) !== FALSE) {
-                        if (isset($data[0]) && is_numeric($data[0]) && (int)$data[0] > $maxId) {
-                            $maxId = (int)$data[0];
-                        }
-                    }
-                    fclose($handle);
-                }
-                return $maxId;
-            }
-        
-            $filename = 'BDD/articles.csv';
-            $maxId = Get_Max_Id($filename);
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $id = $maxId + 1;
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $main_image = $_POST['main_image'];
-                $text = $_POST['text'];
-                $secondary_image = $_POST['secondary_image'];
-                $tag = $_POST['tag'];
-                $show = isset($_POST['show']) ? 'Yes' : 'No';
-
-                $file = fopen('BDD/articles.csv', 'a');
-                fputcsv($file, [$id, $name, $description, $main_image, $text, $secondary_image, $tag, $show]);
-                fclose($file);
-            }
-        ?>
-        <div class="div_add_article_and_explication">
-
-            <div class="explication-div">
-                <h2>Comment ca fonctione</h2>
-                <p>
-                    <strong>Guide d'utilisation de la page d'administration</strong><br><br>
-                    Cette page vous permet de gérer vos articles facilement.<br><br>
-                    <strong>1. Gérer les articles</strong><br>
-                    - <strong>Afficher/Masquer</strong> : Cliquez sur 📷 pour activer ou désactiver l'affichage d'un article.<br>
-                    - <strong>Modifier</strong> : Cliquez sur ✏️ pour éditer un article.<br>
-                    - <strong>Supprimer</strong> : Cliquez sur 🗑️ pour supprimer un article définitivement.<br><br>
-                    <strong>2. Ajouter un article</strong><br>
-                    - <strong>Nom</strong> : Entrez le titre de l'article.<br>
-                    - <strong>Description</strong> : Ajoutez un court résumé.<br>
-                    - <strong>Image principale</strong> : Entrez l'URL de l'image principale.<br>
-                    - <strong>Texte</strong> : Rédigez le contenu.<br>
-                    - <strong>Image secondaire</strong> : Ajoutez plusieurs URLs, séparées par des virgules.<br>
-                    - <strong>Tags</strong> : Sélectionnez des mots-clés.<br>
-                    - <strong>Afficher l'article</strong> : Cochez cette case si vous souhaitez publier immédiatement.<br>
-                    - <strong>Enregistrer</strong> : Cliquez sur "Ajouter".<br><br>
-                    <strong>⚠️ Ne pas utiliser</strong> <code>;, / "</code> dans les champs pour éviter les erreurs.<br><br>
-                    <strong>3. Modifier un article</strong><br>
-                    1. Cliquez sur ✏️.<br>
-                    2. Modifiez les informations.<br>
-                    3. Cliquez sur "Enregistrer".<br><br>
-                    <strong>4. Supprimer un article</strong><br>
-                    Cliquez sur 🗑️ pour supprimer un article définitivement.<br><br>
-                </p>
-            </div>
-
-            <form method="POST" action="" class="form_add_article">
-
-                <h2>Tableau pour créer un article</h2>
-                
-                <label for="name">Nom</label>
-                <textarea id="name" name="name" placeholder="Nom" required></textarea>
-            
-                <label for="description">Description</label>
-                <textarea id="description" name="description" placeholder="Description" required></textarea>
-            
-                <label for="main_image">Image Principal</label>
-                <textarea id="main_image" name="main_image" placeholder="Image Principal" required></textarea>
-            
-                <label for="text">Texte</label>
-                <textarea id="text" name="text" placeholder="Texte" required></textarea>
-            
-                <label for="secondary_image">Image Secondaire</label>
-                <textarea id="secondary_image" name="secondary_image" placeholder="Image Secondaire" required></textarea>
-            
-                <label for="tag">Tag</label>
-                <select id="tag" name="tag[]" multiple required>
-                    <option value="" disabled selected>Choisissez un ou des tag</option>
-                    <option value="tag1">Tag 1</option>
-                    <option value="tag2">Tag 2</option>
-                    <option value="tag3">Tag 3</option>
-                </select>
-            
-                <label for="show">Show</label>
-                <input type="checkbox" id="show" name="show">
-            
-                <input type="submit" value="Ajouter"/>
-            </form>
-            </form>
+    <div class="div_add_article_and_explication">
+        <div class="explication-div">
+            <h2>Comment ça fonctionne</h2>
+            <p>
+                <strong>Guide d'utilisation de la page d'administration</strong><br><br>
+                Cette page vous permet de gérer vos articles facilement.<br><br>
+                <strong>1. Gérer les articles</strong><br>
+                - <strong>Afficher/Masquer</strong> : Cliquez sur 📷 pour activer ou désactiver l'affichage d'un article.<br>
+                - <strong>Modifier</strong> : Cliquez sur ✏️ pour éditer un article.<br>
+                - <strong>Supprimer</strong> : Cliquez sur 🗑️ pour supprimer un article définitivement.<br><br>
+                <strong>2. Ajouter un article</strong><br>
+                - <strong>Nom</strong> : Entrez le titre de l'article.<br>
+                - <strong>Description</strong> : Ajoutez un court résumé.<br>
+                - <strong>Image principale</strong> : Entrez l'URL de l'image principale.<br>
+                - <strong>Texte</strong> : Rédigez le contenu.<br>
+                - <strong>Image secondaire</strong> : Ajoutez plusieurs URLs, séparées par des <strong>points-virgules</strong>.<br>
+                - <strong>Tags</strong> : Sélectionnez des mots-clés.<br>
+                - <strong>Afficher l'article</strong> : Cochez cette case si vous souhaitez publier immédiatement.<br>
+                - <strong>Enregistrer</strong> : Cliquez sur "Ajouter".<br><br>
+            </p>
         </div>
 
-
+        <form method="POST" action="" class="form_add_article">
+            <h2>Ajouter un article</h2>
+            
+            <label for="name">Nom</label>
+            <textarea id="name" name="name" placeholder="Nom" required></textarea>
+        
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Description" required></textarea>
+        
+            <label for="main_image">Image Principale</label>
+            <textarea id="main_image" name="main_image" placeholder="URL de l'image principale" required></textarea>
+        
+            <label for="text">Texte</label>
+            <textarea id="text" name="text" placeholder="Texte" required></textarea>
+        
+            <label for="secondary_image">Images Secondaires</label>
+            <textarea id="secondary_image" name="secondary_image" placeholder="URLs des images secondaires (séparées par des ;)" required></textarea>
+        
+            <label for="tag">Tags</label>
+            <select id="tag" name="tag[]" multiple required>
+                <option value="tag1">Tag 1</option>
+                <option value="tag2">Tag 2</option>
+                <option value="tag3">Tag 3</option>
+            </select>
+        
+            <label for="show">Afficher l'article</label>
+            <input type="checkbox" id="show" name="show">
+        
+            <input type="submit" value="Ajouter">
+        </form>
     </div>
-    
-    <div id="edit-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid black;">
-    <form id="edit-form">
-        <input type="hidden" id="edit-id" name="id">
-        <label for="edit-title">Titre:</label>
-        <input type="text" id="edit-title" name="title"><br>
-        <label for="edit-content">Contenu:</label>
-        <textarea id="edit-content" name="content"></textarea><br>
-        <label for="edit-author">Auteur:</label>
-        <input type="text" id="edit-author" name="author"><br>
-        <label for="edit-text">Text:</label>
-        <input type="text" id="edit-text" name="text"><br>
-        <label for="edit-category">Catégorie:</label>
-        <input type="text" id="edit-category" name="category"><br>
-        <label for="edit-tags">Tags:</label>
-        <input type="text" id="edit-tags" name="tags"><br>
-        <label for="edit-status">Statut:</label>
-        <input type="text" id="edit-status" name="status"><br>
-        <button type="submit">Enregistrer</button>
-        <button type="button" id="edit-close">Fermer</button>
+
+        <!-- Pop-up de modification -->
+    <div id="edit-popup" style="display: none;">
+        <form id="edit-form" method="POST" action="edit_article.php">
+            <h2>Modifier l'article</h2>
+            <input type="hidden" id="edit-id" name="id">
+
+            <label for="edit-title">Titre</label>
+            <input type="text" id="edit-title" name="title" required>
+
+            <label for="edit-content">Description</label>
+            <textarea id="edit-content" name="content" required></textarea>
+
+            <label for="edit-author">Auteur</label>
+            <input type="text" id="edit-author" name="author" required>
+
+            <label for="edit-text">Texte</label>
+            <textarea id="edit-text" name="text" required></textarea>
+
+            <label for="edit-category">Catégorie</label>
+            <input type="text" id="edit-category" name="category" required>
+
+            <label for="edit-tags">Tags</label>
+            <input type="text" id="edit-tags" name="tags" required>
+
+            <label for="edit-status">Statut</label>
+            <select id="edit-status" name="status" required>
+                <option value="true">Afficher</option>
+                <option value="false">Masquer</option>
+            </select>
+
+            <button type="submit">Enregistrer</button>
+            <button type="button" id="edit-close">Annuler</button>
     </form>
 </div>
 </body>

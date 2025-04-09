@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     $title = $_POST['title'];
@@ -22,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data[4] = $text;
             $data[5] = $category;
             $data[6] = $tags;
-            $data[7] = $status;
+            $data[7] = $status; // Mise à jour du statut
             $line = implode(',', $data);
             $updated = true;
             break;
@@ -31,9 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($updated) {
         file_put_contents($file, implode(PHP_EOL, $lines));
-        echo 'success';
-    } else {
-        echo 'error';
     }
+
+    // Redirection vers la page d'administration
+    header("Location: admin.php");
+    exit;
 }
 ?>

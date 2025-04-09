@@ -1,7 +1,7 @@
 <?php
 $articles = [];
 if (($handle = fopen('BDD/articles.csv', 'r')) !== false) {
-    while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+    while (($data = fgetcsv($handle, 1000, ",", '"', "\\")) !== false) { // Ajout explicite du paramètre $escape
         $tags = explode(';', $data[6]);
         $articles[] = [
             'id' => $data[0],
@@ -34,17 +34,13 @@ if ($item_id !== null) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Point Zig-Zag - À Propos</title>
+    <title><?php echo $article ? htmlspecialchars($article['name']) : 'Article introuvable'; ?></title>
     <link rel="stylesheet" href="front-style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.typekit.net/bgg3fjy.css">
 </head>
 <body>
 <?php include 'nav.php'; ?>
-<body>
-    <div class="article-solo">
+<div class="article-solo">
+    <?php if ($article): ?>
         <div class="article-main-block">
             <div class="article-main-infos">
                 <h1><?php echo htmlspecialchars($article['name']); ?></h1>
@@ -58,9 +54,13 @@ if ($item_id !== null) {
         <div class="article-main-infos">
             <p><?php echo nl2br(htmlspecialchars($article['long_description'])); ?></p>
             <div class="article-showcase">
-                <?php foreach ($article['images'] as $image): ?>
-                    <img src="<?php echo htmlspecialchars($image); ?>" alt="Image de l'article">
-                <?php endforeach; ?>
+                <?php if (!empty($article['images'])): ?>
+                    <?php foreach ($article['images'] as $image): ?>
+                        <img src="<?php echo htmlspecialchars($image); ?>" alt="Image de l'article">
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>Aucune image disponible pour cet article.</p>
+                <?php endif; ?>
             </div>
             <div class="article-main-tags">
                 <p><strong>Tags:</strong> 
@@ -72,7 +72,10 @@ if ($item_id !== null) {
                 </p>
             </div>
         </div>
-    </div>    
-    <?php include('footer.php'); ?>
+    <?php else: ?>
+        <p>Article introuvable. Veuillez vérifier l'ID de l'article.</p>
+    <?php endif; ?>
+</div>    
+<?php include('footer.php'); ?>
 </body>
 </html>
