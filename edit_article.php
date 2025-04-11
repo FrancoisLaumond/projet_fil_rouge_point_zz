@@ -1,24 +1,31 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'];
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-    $author = $_POST['author'];
-    $text = $_POST['text'];
-    $category = $_POST['category'];
-    $tags = $_POST['tags'];
-    $status = $_POST['status'];
+    $id = $_POST['id'] ?? null;
+    $title = htmlspecialchars(trim($_POST['title'] ?? ''));
+    $content = htmlspecialchars(trim($_POST['content'] ?? ''));
+    $author = htmlspecialchars(trim($_POST['author'] ?? ''));
+    $text = htmlspecialchars(trim($_POST['text'] ?? ''));
+    $category = htmlspecialchars(trim($_POST['category'] ?? ''));
+    $tags = htmlspecialchars(trim($_POST['tags'] ?? ''));
+    $status = htmlspecialchars(trim($_POST['status'] ?? ''));
+
+    if (!$id || !$title || !$content || !$author || !$text || !$category || !$tags || !$status) {
+        echo 'error_missing_data';
+        exit;
+    }
 
     $file = 'BDD/articles.csv';
+    if (!file_exists($file)) {
+        echo 'error_file_missing';
+        exit;
+    }
+
     $lines = file($file, FILE_IGNORE_NEW_LINES);
     $updated = false;
 
     foreach ($lines as &$line) {
-        $data = str_getcsv($line);
+        // Ajout explicite du paramètre $escape
+        $data = str_getcsv($line, ',', '"', '\\');
         if ($data[0] == $id) {
             $data[1] = $title;
             $data[2] = $content;
@@ -35,10 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($updated) {
         file_put_contents($file, implode(PHP_EOL, $lines));
+        echo 'success';
+    } else {
+        echo 'error_not_found';
     }
-
-    // Redirection vers la page d'administration
-    header("Location: admin.php");
     exit;
 }
-?>

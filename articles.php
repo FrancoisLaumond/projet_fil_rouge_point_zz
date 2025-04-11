@@ -9,9 +9,9 @@ $selectedTag = isset($_GET['tag']) ? htmlspecialchars($_GET['tag']) : '';
 
 $articles = [];
 if (($handle = fopen($csvFile, "r")) !== FALSE) {
-    fgetcsv($handle, 1000, ",", '"', "\\"); // Lecture de l'en-tête avec $escape explicitement défini
-    while (($data = fgetcsv($handle, 1000, ",", '"', "\\")) !== FALSE) { // Ajout explicite du paramètre $escape
-        if (strtolower($data[7]) === 'yes') {
+    fgetcsv($handle, 1000, ",", '"', "\\"); // Lecture de l'en-tête
+    while (($data = fgetcsv($handle, 1000, ",", '"', "\\")) !== FALSE) {
+        if (strtolower($data[7]) === 'true') { // Vérifie si l'article est visible
             $tags = explode(';', $data[6]);
             if ($selectedTag === '' || in_array($selectedTag, $tags)) {
                 $articles[] = [
@@ -29,7 +29,6 @@ if (($handle = fopen($csvFile, "r")) !== FALSE) {
     fclose($handle);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

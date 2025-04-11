@@ -339,15 +339,17 @@ nav a img{
 }
 
 .altBlock {
-    background-color: #E9DFB4;
-    padding: 0 60px 0 60px;
-    display: flex;
-    gap: 40px;
-    flex-direction: row;
-    max-width: 100%;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
+  background-color: #E9DFB4;
+  padding: 0 60px 0 60px;
+  display: flex;
+  gap: 40px;
+  flex-direction: row;
+  max-width: 90%;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin-top: 10vh;
+  border-radius: 0 10Px 10px 0;
 }
 
 .altBlock img {
@@ -471,7 +473,8 @@ nav a img{
 .article-showcase{
   display: flex;
   flex-direction: row;
-  gap: 10px
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .article-showcase img{

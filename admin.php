@@ -1,9 +1,4 @@
 <?php
-// Activer la gestion des erreurs
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 $filename = 'BDD/articles.csv';
 
 // Fonction pour obtenir le plus grand ID dans le fichier CSV
@@ -25,26 +20,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $maxId = Get_Max_Id($filename);
     $id = $maxId + 1;
 
-    // Récupération des données du formulaire
-    $name = htmlspecialchars($_POST['name']);
-    $description = htmlspecialchars($_POST['description']);
-    $main_image = htmlspecialchars($_POST['main_image']);
-    $text = htmlspecialchars($_POST['text']);
-    $secondary_image = htmlspecialchars($_POST['secondary_image']);
-    $tags = htmlspecialchars(implode(';', $_POST['tag'])); // Conversion des tags en chaîne séparée par des ;
-    $show = isset($_POST['show']) ? 'true' : 'false'; // Conversion en "true" ou "false"
+    // Validation des données
+    $name = htmlspecialchars(trim($_POST['name']));
+    $description = htmlspecialchars(trim($_POST['description']));
+    $main_image = htmlspecialchars(trim($_POST['main_image']));
+    $text = htmlspecialchars(trim($_POST['text']));
+    $secondary_image = htmlspecialchars(trim($_POST['secondary_image']));
+    $tags = htmlspecialchars(implode(';', $_POST['tag'] ?? [])); // Vérifie si des tags sont fournis
+    $show = isset($_POST['show']) ? 'true' : 'false';
 
-    // Ajout des données dans le fichier CSV
-    $file = fopen($filename, 'a');
-    if ($file) {
-        fputcsv($file, [$id, $name, $description, $main_image, $text, $secondary_image, $tags, $show]);
-        fclose($file);
-
-        // Redirection pour éviter les doubles soumissions
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
+    if (empty($name) || empty($description) || empty($main_image) || empty($text)) {
+        echo "<p>Erreur : Tous les champs obligatoires doivent être remplis.</p>";
     } else {
-        echo "<p>Erreur lors de l'ajout de l'article.</p>";
+        // Ajout des données dans le fichier CSV
+        $file = fopen($filename, 'a');
+        if ($file) {
+            // Ajout des données avec un saut de ligne explicite
+            fwrite($file, implode(',', [$id, $name, $description, $main_image, $text, $secondary_image, $tags, $show]) . PHP_EOL);
+            fclose($file);
+
+            // Redirection pour éviter les doubles soumissions
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
+        } else {
+            echo "<p>Erreur lors de l'ajout de l'article.</p>";
+        }
     }
 }
 ?>
@@ -95,14 +95,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td><span class='delete' data-id='{$data_id}'>🗑️</span></td>
                             <td>
                                 <span class='edit' 
-                                    data-id='<?php echo htmlspecialchars($data_id); ?>' 
-                                    data-title='<?php echo htmlspecialchars($data_name); ?>' 
-                                    data-content='<?php echo htmlspecialchars($data_description); ?>' 
-                                    data-author='<?php echo htmlspecialchars($data_main_image); ?>' 
-                                    data-text='<?php echo htmlspecialchars($data_text); ?>' 
-                                    data-category='<?php echo htmlspecialchars($data_secondary_image); ?>' 
-                                    data-tags='<?php echo htmlspecialchars($data_tags); ?>' 
-                                    data-status='<?php echo htmlspecialchars($data_status); ?>'>✏️
+                                    data-id='$data_id' 
+                                    data-title='$data_name' 
+                                    data-content='$data_description' 
+                                    data-author='$data_main_image' 
+                                    data-text='$data_text' 
+                                    data-category='$data_secondary_image' 
+                                    data-tags='$data_tags' 
+                                    data-status='$data_status'
+                                    >✏️
                                 </span>
                             </td>
                         </tr>";
@@ -201,5 +202,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="button" id="edit-close">Annuler</button>
     </form>
 </div>
+<?php
+if (isset($_GET['error'])) {
+    $error_message = '';
+    switch ($_GET['error']) {
+        case 'missing_fields':
+            $error_message = 'Veuillez remplir tous les champs obligatoires.';
+            break;
+        case 'write_error':
+            $error_message = 'Erreur lors de l\'enregistrement de l\'article.';
+            break;
+        default:
+            $error_message = 'Une erreur inconnue est survenue.';
+    }
+    echo "<p class='error-message'>$error_message</p>";
+}
+?>
 </body>
 </html>

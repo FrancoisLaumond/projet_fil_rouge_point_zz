@@ -14,13 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.text())
             .then(data => {
+                console.log('Server response:', data); // Debugging
                 if (data === 'success') {
                     this.setAttribute('data-status', newStatus);
-                    this.innerHTML = newStatus === 'yes' ? '📷' : '📵';
+                    this.innerHTML = newStatus === 'true' ? '📷' : '📵';
                 } else {
-                    alert('Erreur lors de la mise à jour.');
+                    console.error('Erreur lors de la mise à jour :', data);
                 }
-            });
+            })
+            .catch(error => console.error('Fetch error:', error));
         });
     });
 
@@ -37,12 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.text())
             .then(data => {
+                console.log('Server response:', data); // Debugging
                 if (data === 'success') {
                     this.closest('tr').remove();
                 } else {
-                    alert('Erreur lors de la suppression.');
+                    console.error('Erreur lors de la suppression :', data);
                 }
-            });
+            })
+            .catch(error => console.error('Fetch error:', error));
         });
     });
 
@@ -99,16 +103,13 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.text())
         .then(data => {
+            console.log('Server response:', data); // Debugging
             if (data === 'success') {
                 location.reload();
             } else {
-                alert('Erreur lors de la mise à jour.');
+                console.error('Erreur lors de la mise à jour :', data);
             }
-        });
-    });
-
-    // Fermeture du popup de modification
-    document.getElementById('edit-close').addEventListener('click', function() {
-        document.getElementById('edit-popup').style.display = 'none';
+        })
+        .catch(error => console.error('Fetch error:', error));
     });
 });
